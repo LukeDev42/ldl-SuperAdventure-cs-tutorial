@@ -36,7 +36,6 @@
             this.lblGold = new System.Windows.Forms.Label();
             this.lblExperience = new System.Windows.Forms.Label();
             this.lblLevel = new System.Windows.Forms.Label();
-            this.btnTest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label2
@@ -109,22 +108,11 @@
             this.lblLevel.Size = new System.Drawing.Size(0, 13);
             this.lblLevel.TabIndex = 8;
             // 
-            // btnTest
-            // 
-            this.btnTest.Location = new System.Drawing.Point(469, 365);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(75, 23);
-            this.btnTest.TabIndex = 9;
-            this.btnTest.Text = "Test";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
-            // 
             // SuperAdvetnure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(719, 651);
-            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.lblLevel);
             this.Controls.Add(this.lblExperience);
             this.Controls.Add(this.lblGold);
@@ -150,7 +138,6 @@
         private System.Windows.Forms.Label lblGold;
         private System.Windows.Forms.Label lblExperience;
         private System.Windows.Forms.Label lblLevel;
-        private System.Windows.Forms.Button btnTest;
     }
 }
 
