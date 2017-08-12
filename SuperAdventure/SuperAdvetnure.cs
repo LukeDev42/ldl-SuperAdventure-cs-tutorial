@@ -20,7 +20,7 @@ namespace SuperAdventure
         {
             InitializeComponent();
 
-            Location location = new Location(1, "Home", "This is your house.");
+            Location location = new Location(1, "Home", "This is your house.", null, null, null);
 
 
             _player = new Player(10, 10, 20, 0, 1);
@@ -29,6 +29,8 @@ namespace SuperAdventure
             lblGold.Text = _player.Gold.ToString();
             lblExperience.Text = _player.ExperiencePoints.ToString();
             lblLevel.Text = _player.Level.ToString();
+            
+
         }
 
         private void label2_Click(object sender, EventArgs e)
