@@ -18,6 +18,11 @@ namespace Engine
             Gold = Gold;
             ExperiencePoints = experiencePoints;
             Level = level;
+            Inventory = new List<InventoryItem>();
+            Quests = new List<PlayerQuest>();
         }
+
+        public List<InventoryItem> Inventory { get; set; }
+        public List<PlayerQuest> Quests { get; set; }
     }
 }

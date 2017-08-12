@@ -22,6 +22,9 @@ namespace Engine
             MaximumDamage = maximumDamage;
             RewardExperiencePoints = rewardExperiencePoints;
             RewardGold = rewardGold;
+            LootTable = new List<LootItem>();
         }
+
+        public List<LootItem> LootTable { get; set; }
     }
 }
