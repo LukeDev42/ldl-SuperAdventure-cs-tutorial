@@ -75,7 +75,7 @@ namespace Engine
             snake.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SNAKE_FANG), 75, false));
             snake.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SNAKE_FANG), 75, true));
 
-            Monster giantSpider = new Monster(MONSTER_ID_GIANT_SPIDER
+            Monster giantSpider = new Monster(MONSTER_ID_GIANT_SPIDER,
                 "Giant Spider", 20, 5, 40, 10, 10);
             giantSpider.LootTable.Add(new LootItem(
                 ItemByID(ITEM_ID_SPIDER_FANG), 75, true));
@@ -143,7 +143,7 @@ namespace Engine
             Location bridge = new Location(LOCATION_ID_BRIDGE,
                 "Bridge", "A stone bridge crosses a wide river.");
 
-            Location spiderField = new Location(LOCATION_ID_SPIDER_FIELD),
+            Location spiderField = new Location(LOCATION_ID_SPIDER_FIELD,
                 "Forest", "You see spider webs covering the trees in this forest.");
             spiderField.MonsterLivingHere = MonsterByID(MONSTER_ID_GIANT_SPIDER);
 
@@ -193,7 +193,7 @@ namespace Engine
                 {
                     return item;
                 }
-            
+
             }
 
             return null;
@@ -201,7 +201,7 @@ namespace Engine
 
         public static Monster MonsterByID(int id)
         {
-            foreach(Monster monster in Monsters)
+            foreach (Monster monster in Monsters)
             {
                 if (monster.ID == id)
                 {
@@ -216,7 +216,7 @@ namespace Engine
         {
             foreach (Quest quest in Quests)
             {
-                if(quest.ID == id)
+                if (quest.ID == id)
                 {
                     return quest;
                 }
@@ -229,7 +229,7 @@ namespace Engine
         {
             foreach (Location location in Locations)
             {
-                if(location.ID == id)
+                if (location.ID == id)
                 {
                     return location;
                 }
@@ -237,5 +237,6 @@ namespace Engine
 
             return null;
         }
-            
+
+    }
 }
