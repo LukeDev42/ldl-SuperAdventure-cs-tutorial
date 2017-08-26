@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblHitPoints = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -53,14 +53,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             this.SuspendLayout();
             // 
-            // label2
+            // lblHitPoints
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Hit Points:";
+            this.lblHitPoints.AutoSize = true;
+            this.lblHitPoints.Location = new System.Drawing.Point(18, 20);
+            this.lblHitPoints.Name = "lblHitPoints";
+            this.lblHitPoints.Size = new System.Drawing.Size(55, 13);
+            this.lblHitPoints.TabIndex = 1;
+            this.lblHitPoints.Text = "Hit Points:";
             // 
             // label1
             // 
@@ -283,9 +283,10 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblHitPoints);
             this.Name = "SuperAdvetnure";
             this.Text = "MyGame";
+            this.Load += new System.EventHandler(this.SuperAdvetnure_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
             this.ResumeLayout(false);
@@ -295,7 +296,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblHitPoints;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
