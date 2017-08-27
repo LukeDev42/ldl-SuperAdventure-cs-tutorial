@@ -286,7 +286,6 @@
             this.Controls.Add(this.lblHitPoints);
             this.Name = "SuperAdvetnure";
             this.Text = "MyGame";
-            this.Load += new System.EventHandler(this.SuperAdvetnure_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
             this.ResumeLayout(false);
