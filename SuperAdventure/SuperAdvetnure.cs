@@ -16,6 +16,7 @@ namespace SuperAdventure
     public partial class SuperAdvetnure : Form
     {
         private Player _player;
+        private Monster _currentMonster;
 
         public SuperAdvetnure()
         {
@@ -288,13 +289,11 @@ namespace SuperAdventure
                 rtbMessages.Text += "You see a " + newLocation.MonsterLivingHere.Name + Environment.NewLine;
 
                 //Make a new monster, Using values from the standard monster in the World.Monster list
-                Monster standardMonster = World.MonsterByID(
-                    newLocation.MonsterLivingHere.ID);
-
-                _currentMonster = new Monster(standardMonster.ID, standardMonster.Name,
-                    standardMonster.MaximumDamage, standardMonster.RewardExperiencePoints,
-                    standardMonster.RewardGold, standardMonster.CurrentHitPoints,
-                    standardMonster.MaximumHitPoints);
+                Monster standardMonster = World.MonsterByID(newLocation.MonsterLivingHere.ID);
+                
+                _currentMonster = new Monster(standardMonster.ID, standardMonster.Name, standardMonster.MaximumDamage, 
+                    standardMonster.RewardExperiencePoints,standardMonster.RewardGold, standardMonster.CurrentHitPoints, 
+                        standardMonster.MaximumHitPoints);
 
                 foreach (LootItem lootItem in standardMonster.LootTable)
                 {

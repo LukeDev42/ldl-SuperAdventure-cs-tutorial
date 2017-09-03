@@ -37,7 +37,6 @@
             this.lblExperience = new System.Windows.Forms.Label();
             this.lblLevel = new System.Windows.Forms.Label();
             this.control = new System.Windows.Forms.Label();
-            this.cboWeapons = new System.Windows.Forms.Label();
             this.cboPotions = new System.Windows.Forms.Label();
             this.btnUseWeapon = new System.Windows.Forms.Button();
             this.btnUsePotion = new System.Windows.Forms.Button();
@@ -49,6 +48,7 @@
             this.rtbMessages = new System.Windows.Forms.RichTextBox();
             this.dgvQuests = new System.Windows.Forms.DataGridView();
             this.dgvInventory = new System.Windows.Forms.DataGridView();
+            this.cboWeapons = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             this.SuspendLayout();
@@ -130,14 +130,6 @@
             this.control.Size = new System.Drawing.Size(70, 13);
             this.control.TabIndex = 9;
             this.control.Text = "Select Action";
-            // 
-            // cboWeapons
-            // 
-            this.cboWeapons.AutoSize = true;
-            this.cboWeapons.Location = new System.Drawing.Point(369, 559);
-            this.cboWeapons.Name = "cboWeapons";
-            this.cboWeapons.Size = new System.Drawing.Size(0, 13);
-            this.cboWeapons.TabIndex = 10;
             // 
             // cboPotions
             // 
@@ -258,6 +250,14 @@
             this.dgvInventory.Size = new System.Drawing.Size(312, 309);
             this.dgvInventory.TabIndex = 21;
             // 
+            // cboWeapons
+            // 
+            this.cboWeapons.AutoSize = true;
+            this.cboWeapons.Location = new System.Drawing.Point(369, 559);
+            this.cboWeapons.Name = "cboWeapons";
+            this.cboWeapons.Size = new System.Drawing.Size(0, 13);
+            this.cboWeapons.TabIndex = 10;
+            // 
             // SuperAdvetnure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -304,7 +304,6 @@
         private System.Windows.Forms.Label lblExperience;
         private System.Windows.Forms.Label lblLevel;
         private System.Windows.Forms.Label control;
-        private System.Windows.Forms.Label cboWeapons;
         private System.Windows.Forms.Label cboPotions;
         private System.Windows.Forms.Button btnUseWeapon;
         private System.Windows.Forms.Button btnUsePotion;
@@ -316,6 +315,7 @@
         private System.Windows.Forms.RichTextBox rtbMessages;
         private System.Windows.Forms.DataGridView dgvQuests;
         private System.Windows.Forms.DataGridView dgvInventory;
+        private System.Windows.Forms.Label cboWeapons;
     }
 }
 
