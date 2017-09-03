@@ -373,7 +373,7 @@ namespace SuperAdventure
             else
             {
                 cboWeapons.DataSource = weapons;
-                cboWeapons.DisplayMemeber = "Name";
+                cboWeapons.DisplayMember = "Name";
                 cboWeapons.ValueMember = "ID";
 
                 cboWeapons.SelectedIndex = 0;
@@ -402,12 +402,14 @@ namespace SuperAdventure
             else
             {
                 cboPotions.DataSource = healingPotions;
-                cboPotions.DisplayMemeber = "Name";
+                cboPotions.DisplayMember = "Name";
                 cboPotions.ValueMember = "ID";
 
                 cboPotions.SelectedIndex = 0;
             }
         }
+
+
 
         private void btnUseWeapon_Click(object sender, EventArgs e)
         {
