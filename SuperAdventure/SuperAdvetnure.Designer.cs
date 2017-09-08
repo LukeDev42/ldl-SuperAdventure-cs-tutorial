@@ -112,7 +112,6 @@
             this.lblExperience.Name = "lblExperience";
             this.lblExperience.Size = new System.Drawing.Size(0, 13);
             this.lblExperience.TabIndex = 7;
-            this.lblExperience.Click += new System.EventHandler(this.lblExperience_Click);
             // 
             // lblLevel
             // 

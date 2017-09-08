@@ -1,18 +1,10 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using Engine;
 
 namespace SuperAdventure
 {
-
     public partial class SuperAdvetnure : Form
     {
         private Player _player;
@@ -24,21 +16,20 @@ namespace SuperAdventure
 
             Location location = new Location(1, "Home", "This is your house.", null, null, null);
 
-
             _player = new Player(10, 10, 20, 0, 1);
 
             lblHitPoint.Text = _player.CurrentHitPoints.ToString();
             lblGold.Text = _player.Gold.ToString();
             lblExperience.Text = _player.ExperiencePoints.ToString();
             lblLevel.Text = _player.Level.ToString();
-
-
         }
 
-        private void lblExperience_Click(object sender, EventArgs e)
-        {
 
-        }
+
+
+
+
+
 
         private void btnNorth_Click(object sender, EventArgs e)
         {
@@ -60,40 +51,19 @@ namespace SuperAdventure
             MoveTo(_player.CurrentLocation.LocationToEast);
         }
 
-
-
         private void MoveTo(Location newLocation)
         {
             //Does the location require any items
-            if (newLocation.ItemRequiredToEnter != null)
+            if(!_player.HasRequiredItemToEnterThisLocation(newLocation))
             {
-                //see if player has required item
-                bool playerHasRequiredItem = false;
-
-                foreach (InventoryItem ii in _player.Inventory)
-                {
-                    if (ii.Details.ID == newLocation.ItemRequiredToEnter.ID)
-                    {
-                        //We found required Item
-                        playerHasRequiredItem = true;
-                        break;
-                    }
-                }
-
-                if (!playerHasRequiredItem)
-                {
-                    //We didn't find the required item
-                    //display a message and stop the move
-                    rtbMessages.Text += "You must have a " +
-                        newLocation.ItemRequiredToEnter.Name +
-                        " to enter this location." + Environment.NewLine;
-                    return;
-                }
+                rtbMessages.Text += "You must have a " +
+                    newLocation.ItemRequiredToEnter.Name +
+                    " to enter this location." + Environment.NewLine;
+                return;
             }
 
             //Update players location
             _player.CurrentLocation = newLocation;
-
 
             //show/hide availbale movement buttons
             btnNorth.Visible = (newLocation.LocationToNorth != null);
@@ -114,6 +84,7 @@ namespace SuperAdventure
             //Does the location have a quest?
             if (newLocation.QuestAvailableHere != null)
             {
+                //See if the player already has the quest, and if they've completed it
                 bool playerAlreadyHasQuest = false;
                 bool playerAlreadyCompletedQuest = false;
 
@@ -133,39 +104,45 @@ namespace SuperAdventure
                 //See if the player already has the quest
                 if (playerAlreadyHasQuest)
                 {
+                    //If the player has not completed the quest yet
                     if (!playerAlreadyCompletedQuest)
                     {
+                        //See if the player has all the items needed to complete the quest
                         bool PlayerHasAllItemsToCompleteQuest = true;
 
-                        foreach (QuestCompletionItem qci in
-                            newLocation.QuestAvailableHere.QuestCompletionItem)
+                        foreach (QuestCompletionItem qci in newLocation.QuestAvailableHere.QuestCompletionItem)
                         {
                             bool foundItemInPlayersInventory = false;
 
                             //check each item in player's inventory, do they have it, enough of it
                             foreach (InventoryItem ii in _player.Inventory)
                             {
+                                //The player has this item in their inventory
                                 if (ii.Details.ID == qci.Details.ID)
                                 {
                                     foundItemInPlayersInventory = true;
+
                                     if (ii.Quantity < qci.Quantity)
                                     {
                                         //The player doesn't have enough of this item
-                                        PlayerHasAllItemsToCompleteQuest = false;
+                                       PlayerHasAllItemsToCompleteQuest = false;
 
                                         //No reason to continue checking
                                         break;
                                     }
+
                                     //We found the item, dont check the rest of the inventory
                                     break;
                                 }
                             }
+                            
                             //if we dont find item, set variable and stop looking for other items
                             if (!foundItemInPlayersInventory)
                             {
                                 //player does not have item in inventory
                                 PlayerHasAllItemsToCompleteQuest = false;
 
+                                //There is no reason to continue checking for the toher quest completion items
                                 break;
                             }
                         }
@@ -175,13 +152,10 @@ namespace SuperAdventure
                         {
                             //Display messages
                             rtbMessages.Text += Environment.NewLine;
-                            rtbMessages.Text += "You complete the " +
-                                newLocation.QuestAvailableHere.Name +
-                                " quest." + Environment.NewLine;
+                            rtbMessages.Text += "You complete the " + newLocation.QuestAvailableHere.Name + " quest." + Environment.NewLine;
 
                             //remove quest items
-                            foreach (QuestCompletionItem qci in
-                                newLocation.QuestAvailableHere.QuestCompletionItem)
+                            foreach (QuestCompletionItem qci in newLocation.QuestAvailableHere.QuestCompletionItem)
                             {
                                 foreach (InventoryItem ii in _player.Inventory)
                                 {
@@ -191,25 +165,17 @@ namespace SuperAdventure
                                         ii.Quantity -= qci.Quantity;
                                         break;
                                     }
-
                                 }
                             }
 
                             //give quest rewards
                             rtbMessages.Text += "You receive: " + Environment.NewLine;
-                            rtbMessages.Text +=
-                                newLocation.QuestAvailableHere.RewardExperiencePoints.ToString() +
-                                " experience points" + Environment.NewLine;
-                            rtbMessages.Text +=
-                                newLocation.QuestAvailableHere.RewardGold.ToString() +
-                                " gold" + Environment.NewLine;
-                            rtbMessages.Text +=
-                                newLocation.QuestAvailableHere.RewardItem.Name +
-                                Environment.NewLine;
+                            rtbMessages.Text += newLocation.QuestAvailableHere.RewardExperiencePoints.ToString() + " experience points" + Environment.NewLine;
+                            rtbMessages.Text += newLocation.QuestAvailableHere.RewardGold.ToString() + " gold" + Environment.NewLine;
+                            rtbMessages.Text += newLocation.QuestAvailableHere.RewardItem.Name + Environment.NewLine;
                             rtbMessages.Text += Environment.NewLine;
 
-                            _player.ExperiencePoints +=
-                                newLocation.QuestAvailableHere.RewardExperiencePoints;
+                            _player.ExperiencePoints += newLocation.QuestAvailableHere.RewardExperiencePoints;
                             _player.Gold += newLocation.QuestAvailableHere.RewardGold;
 
                             //Add reward item to player's inventory
@@ -217,11 +183,9 @@ namespace SuperAdventure
 
                             foreach (InventoryItem ii in _player.Inventory)
                             {
-                                if (ii.Details.ID ==
-                                    newLocation.QuestAvailableHere.RewardItem.ID)
+                                if (ii.Details.ID == newLocation.QuestAvailableHere.RewardItem.ID)
                                 {
-                                    //They have the item in their inventory
-                                    //so increase the quantity by one
+                                    //They have the item in their inventory so increase the quantity by one
                                     ii.Quantity++;
 
                                     addedItemToPlayerInventory = true;
@@ -229,12 +193,15 @@ namespace SuperAdventure
                                     break;
                                 }
                             }
+
+                            //They didn't have the item in their inventory, so increase the quantity by one
                             if (!addedItemToPlayerInventory)
                             {
-                                _player.Inventory.Add(new InventoryItem(
-                                    newLocation.QuestAvailableHere.RewardItem, 1));
+                                _player.Inventory.Add(new InventoryItem(newLocation.QuestAvailableHere.RewardItem, 1));
                             }
-                            //Mark quest complete, find quest in player's quest list
+
+                            //Mark quest complete
+                            //Find quest in player's quest list
                             foreach (PlayerQuest pq in _player.Quests)
                             {
                                 if (pq.Details.ID == newLocation.QuestAvailableHere.ID)
@@ -244,9 +211,7 @@ namespace SuperAdventure
 
                                     break;
                                 }
-
                             }
-
                         }
                     }
                 }
@@ -255,25 +220,18 @@ namespace SuperAdventure
                     //The player does not alread have the quest
 
                     //Display message
-                    rtbMessages.Text += "You receive the " +
-                        newLocation.QuestAvailableHere.Name +
-                        " quest." + Environment.NewLine;
-                    rtbMessages.Text += newLocation.QuestAvailableHere.Description +
-                        Environment.NewLine;
-                    rtbMessages.Text += "To complete it, return with:" +
-                        Environment.NewLine;
-                    foreach (QuestCompletionItem qci in
-                        newLocation.QuestAvailableHere.QuestCompletionItem)
+                    rtbMessages.Text += "You receive the " + newLocation.QuestAvailableHere.Name + " quest." + Environment.NewLine;
+                    rtbMessages.Text += newLocation.QuestAvailableHere.Description + Environment.NewLine;
+                    rtbMessages.Text += "To complete it, return with:" + Environment.NewLine;
+                    foreach (QuestCompletionItem qci in newLocation.QuestAvailableHere.QuestCompletionItem)
                     {
                         if (qci.Quantity == 1)
                         {
-                            rtbMessages.Text += qci.Quantity.ToString() + " " +
-                                qci.Details.Name + Environment.NewLine;
+                            rtbMessages.Text += qci.Quantity.ToString() + " " + qci.Details.Name + Environment.NewLine;
                         }
                         else
                         {
-                            rtbMessages.Text += qci.Quantity.ToString() + " " +
-                                qci.Details.NamePlural + Environment.NewLine;
+                            rtbMessages.Text += qci.Quantity.ToString() + " " + qci.Details.NamePlural + Environment.NewLine;
                         }
                     }
                     rtbMessages.Text += Environment.NewLine;
@@ -292,8 +250,7 @@ namespace SuperAdventure
                 Monster standardMonster = World.MonsterByID(newLocation.MonsterLivingHere.ID);
                 
                 _currentMonster = new Monster(standardMonster.ID, standardMonster.Name, standardMonster.MaximumDamage, 
-                    standardMonster.RewardExperiencePoints,standardMonster.RewardGold, standardMonster.CurrentHitPoints, 
-                        standardMonster.MaximumHitPoints);
+                    standardMonster.RewardExperiencePoints,standardMonster.RewardGold, standardMonster.CurrentHitPoints, standardMonster.MaximumHitPoints);
 
                 foreach (LootItem lootItem in standardMonster.LootTable)
                 {
@@ -329,8 +286,7 @@ namespace SuperAdventure
             {
                 if(inventoryItem.Quantity > 0)
                 {
-                    dgvInventory.Rows.Add(new[] { inventoryItem.Details.Name,
-                    inventoryItem.Quantity.ToString() });
+                    dgvInventory.Rows.Add(new[] { inventoryItem.Details.Name, inventoryItem.Quantity.ToString() });
                 }
             }
 
@@ -346,8 +302,7 @@ namespace SuperAdventure
 
             foreach(PlayerQuest playerQuest in _player.Quests)
             {
-                dgvQuests.Rows.Add(new[] { playerQuest.Details.Name,
-                playerQuest.IsCompleted.ToString() });
+                dgvQuests.Rows.Add(new[] { playerQuest.Details.Name, playerQuest.IsCompleted.ToString() });
             }
 
             //Refresh player's weapons combobox
@@ -408,8 +363,6 @@ namespace SuperAdventure
                 cboPotions.SelectedIndex = 0;
             }
         }
-
-
 
         private void btnUseWeapon_Click(object sender, EventArgs e)
         {
