@@ -100,6 +100,7 @@ namespace Engine
                     return false;
                 }
             }
+            return true;
         }
     }
 
