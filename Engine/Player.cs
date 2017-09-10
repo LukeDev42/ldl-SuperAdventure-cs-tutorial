@@ -46,6 +46,61 @@ namespace Engine
             //Didn't find the item in their inventory
             return false;
         }
+
+        public bool HasThisQuest(Quest quest)
+        {
+            foreach (PlayerQuest playerQuest in Quests)
+            {
+                if (playerQuest.Details.ID == quest.ID)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool ComletedThisQuest(Quest quest)
+        {
+            foreach (PlayerQuest playerQuest in Quests)
+            {
+                if (playerQuest.Details.ID == quest.ID)
+                {
+                    return playerQuest.IsCompleted;
+                }
+            }
+            return false;
+        }
+
+        public bool HasAllQuestCompletionItem(Quest quest)
+        {
+            //See if the layer has all required quest completion items
+            foreach (QuestCompletionItem qci in quest.QuestCompletionItem)
+            {
+                bool foundItemInPlayersInventory = false;
+
+                //Check each item in player's inventory to if they have enough of it
+                foreach (InventoryItem ii in Inventory)
+                {
+                    //The player has the item
+                    if(ii.Details.ID == qci.Details.ID)
+                    {
+                        foundItemInPlayersInventory = true;
+                        //Player doesn't have enough of the item
+                        if(ii.Quantity < qci.Quantity)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                //The player does not have any of this quest copletion item in their inventory
+                if(!foundItemInPlayersInventory)
+                {
+                    return false;
+                }
+            }
+        }
     }
 
 
