@@ -121,7 +121,7 @@ namespace SuperAdventure
                 }
                 else
                 {
-                    //The player does not alread have the quest
+                    //The player does not already have the quest
 
                     //Display message
                     rtbMessages.Text += "You receive the " + newLocation.QuestAvailableHere.Name + " quest." + Environment.NewLine;
@@ -320,47 +320,9 @@ namespace SuperAdventure
                 rtbMessages.Text += "You recieve " + _currentMonster.RewardGold.ToString() +
                     " gold." + Environment.NewLine;
 
-                //Get random loot item
-                List<InventoryItem> lootedItems = new List<InventoryItem>();
-
-                //Add items to the lootedItems list, comparing a random number to the drop percentage
-                foreach (LootItem  lootItem in _currentMonster.LootTable)
-                {
-                    if(RandomNumberGenerator.NumberBetween(1,100) <= lootItem.DropPercentage)
-                    {
-                        lootedItems.Add(new InventoryItem(lootItem.Details, 1));
-                    }
-                }
-
-                //If no items were selected, add default items
-                if(lootedItems.Count == 0)
-                {
-                    foreach (LootItem lootItem in _currentMonster.LootTable)
-                    {
-                        if (lootItem.IsDefaultItem)
-                        {
-                            lootedItems.Add(new InventoryItem(lootItem.Details, 1));
-                        }
-                    }
-                }
-
-                //Add loot items to inventory
-                foreach (InventoryItem inventoryItem in lootedItems)
-                {
-                    _player.AddItemToInventory(inventoryItem.Details);
-
-                    if (inventoryItem.Quantity == 1)
-                    {
-                        rtbMessages.Text += "You loot " + inventoryItem.Quantity.ToString() + " "
-                            + inventoryItem.Details.Name + Environment.NewLine;
-                    }
-                    else
-                    {
-                        rtbMessages.Text += "You loot " + inventoryItem.Quantity.ToString() + " "
-                            + inventoryItem.Details.NamePlural + Environment.NewLine;
-                    }
-                }
-
+                //Get a reward item and add it to the inventory
+                GenerateLootItem();
+                
                 //Refresh player info and inventory
                 lblHitPoint.Text = _player.CurrentHitPoints.ToString();
                 lblGold.Text = _player.Gold.ToString();
@@ -375,6 +337,49 @@ namespace SuperAdventure
 
                 MoveTo(_player.CurrentLocation);
             }
+        }
+
+        private void GenerateLootItem()
+        {
+            //Get random loot item
+            List<InventoryItem> lootedItems = new List<InventoryItem>();
+
+            //Add items to the lootedItems list, comparing a random number to the drop percentage
+            foreach (LootItem lootItem in _currentMonster.LootTable)
+            {
+                if (RandomNumberGenerator.NumberBetween(1, 100) <= lootItem.DropPercentage)
+                {
+                    lootedItems.Add(new InventoryItem(lootItem.Details, 1));
+                }
+            }
+
+            //If no items were selected, add default items
+            if (lootedItems.Count == 0)
+            {
+                foreach (LootItem lootItem in _currentMonster.LootTable)
+                {
+                    if (lootItem.IsDefaultItem)
+                    {
+                        lootedItems.Add(new InventoryItem(lootItem.Details, 1));
+                    }
+                }
+            }
+
+            foreach (InventoryItem inventoryItem in lootedItems)
+                {
+                    _player.AddItemToInventory(inventoryItem.Details);
+
+                    if (inventoryItem.Quantity == 1)
+                    {
+                        rtbMessages.Text += "You loot " + inventoryItem.Quantity.ToString() + " "
+                            + inventoryItem.Details.Name + Environment.NewLine;
+                    }
+                    else
+                    {
+                        rtbMessages.Text += "You loot " + inventoryItem.Quantity.ToString() + " "
+                            + inventoryItem.Details.NamePlural + Environment.NewLine;
+                    }
+                }
         }
 
         private void btnUsePotion_Click(object sender, EventArgs e)
