@@ -135,6 +135,7 @@ namespace Engine
 
             Location farmersField = new Location(LOCATION_ID_FARM_FIELD,
                 "Farmer's field", "You see rows of vegetables growing here.");
+            farmersField.MonsterLivingHere = MonsterByID(MONSTER_ID_SNAKE);
 
             Location guardPost = new Location(LOCATION_ID_GUARD_POST,
                 "Guard post", "Ther is a large, tough-looking guard here.",
