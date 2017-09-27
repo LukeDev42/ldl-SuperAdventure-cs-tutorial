@@ -215,7 +215,7 @@ namespace Engine
                 quantityAttribute.Value = item.Quantity.ToString();
                 inventoryItem.Attributes.Append(quantityAttribute);
 
-                inventoryItem.AppendChild(inventoryItems);
+                inventoryItems.AppendChild(inventoryItem);
             }
 
             //Create "PlayerQuests" child node to hold player quests
