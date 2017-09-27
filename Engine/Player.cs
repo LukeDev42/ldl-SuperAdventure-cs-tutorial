@@ -46,7 +46,7 @@ namespace Engine
 
                 playerData.LoadXml(xmlPlayerData);
 
-                int currentHitPoints = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/CurrentHItPoints").InnerText);
+                int currentHitPoints = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/CurrentHitPoints").InnerText);
                 int maximumHitPoints = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/MaximumHitPoints").InnerText);
                 int gold = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/Gold").InnerText);
                 int experiencePoints = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/ExperiencePoints").InnerText);
@@ -207,9 +207,9 @@ namespace Engine
             {
                 XmlNode inventoryItem = playerData.CreateElement("InventoryItem");
 
-                XmlAttribute idAttriute = playerData.CreateAttribute("ID");
-                idAttriute.Value = item.Details.ID.ToString();
-                inventoryItem.Attributes.Append(idAttriute);
+                XmlAttribute idAttribute = playerData.CreateAttribute("ID");
+                idAttribute.Value = item.Details.ID.ToString();
+                inventoryItem.Attributes.Append(idAttribute);
 
                 XmlAttribute quantityAttribute = playerData.CreateAttribute("Quantity");
                 quantityAttribute.Value = item.Quantity.ToString();
