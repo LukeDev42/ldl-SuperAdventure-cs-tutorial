@@ -324,27 +324,6 @@ namespace SuperAdventure
                 rtbMessages.Text += "You recieve " + _currentMonster.RewardGold.ToString() +
                     " gold." + Environment.NewLine;
 
-                //Get a reward item and add it to the inventory
-                GenerateLootItem();
-                
-                //Refresh player info and inventory
-                lblHitPoint.Text = _player.CurrentHitPoints.ToString();
-                lblGold.Text = _player.Gold.ToString();
-                lblExperience.Text = _player.ExperiencePoints.ToString();
-                lblLevel.Text = _player.Level.ToString();
-
-                UpdateInventoryListInUI();
-                UpdateWeaponListInUI();
-                UpdatePotionListInUI();
-
-                rtbMessages.Text += Environment.NewLine;
-
-                MoveTo(_player.CurrentLocation);
-            }
-        }
-
-        private void GenerateLootItem()
-        {
             //Get random loot item
             List<InventoryItem> lootedItems = new List<InventoryItem>();
 
@@ -370,7 +349,7 @@ namespace SuperAdventure
             }
 
             foreach (InventoryItem inventoryItem in lootedItems)
-                {
+            {
                     _player.AddItemToInventory(inventoryItem.Details);
 
                     if (inventoryItem.Quantity == 1)
@@ -383,7 +362,39 @@ namespace SuperAdventure
                         rtbMessages.Text += "You loot " + inventoryItem.Quantity.ToString() + " "
                             + inventoryItem.Details.NamePlural + Environment.NewLine;
                     }
+            }
+                //Refresh player info and inventory
+                lblHitPoint.Text = _player.CurrentHitPoints.ToString();
+                lblGold.Text = _player.Gold.ToString();
+                lblExperience.Text = _player.ExperiencePoints.ToString();
+                lblLevel.Text = _player.Level.ToString();
+
+                UpdateInventoryListInUI();
+                UpdateWeaponListInUI();
+                UpdatePotionListInUI();
+
+                rtbMessages.Text += Environment.NewLine;
+
+                MoveTo(_player.CurrentLocation);
+            }
+            else
+            {
+                int damageToPlayer = RandomNumberGenerator.NumberBetween(0, _currentMonster.MaximumDamage);
+
+                rtbMessages.Text += "The " + _currentMonster.Name + " did " +
+                    damageToPlayer + " points of damage." + Environment.NewLine;
+
+                _player.CurrentHitPoints -= damageToPlayer;
+
+                lblHitPoint.Text = _player.CurrentHitPoints.ToString();
+
+                if(_player.CurrentHitPoints <= 0)
+                {
+                    rtbMessages.Text += "The " + _currentMonster.Name + " killed you." + Environment.NewLine;
+
+                    MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
                 }
+            }
         }
 
         private void btnUsePotion_Click(object sender, EventArgs e)
