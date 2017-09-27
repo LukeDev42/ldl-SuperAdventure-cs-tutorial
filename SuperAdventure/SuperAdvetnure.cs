@@ -188,6 +188,8 @@ namespace SuperAdventure
 
             //Refresh player's potions list
             UpdatePotionListInUI();
+
+            ScrollToBottomOfMessages();
         }
 
         private void UpdateInventoryListInUI()
@@ -210,6 +212,8 @@ namespace SuperAdventure
                         inventoryItem.Quantity.ToString() });
                 }
             }
+
+            ScrollToBottomOfMessages();
         }
 
         private void UpdateQuestListInUI()
@@ -229,6 +233,8 @@ namespace SuperAdventure
                     playerQuest.Details.Name,
                     playerQuest.IsCompleted.ToString() });
             }
+
+            ScrollToBottomOfMessages();
         }
 
         private void UpdateWeaponListInUI()
@@ -259,6 +265,8 @@ namespace SuperAdventure
 
                 cboWeapons.SelectedIndex = 0;
             }
+
+            ScrollToBottomOfMessages();
         }
 
         private void UpdatePotionListInUI()
@@ -289,6 +297,8 @@ namespace SuperAdventure
 
                 cboPotions.SelectedIndex = 0;
             }
+
+            ScrollToBottomOfMessages();
         }
 
         private void btnUseWeapon_Click(object sender, EventArgs e)
@@ -395,6 +405,8 @@ namespace SuperAdventure
                     MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
                 }
             }
+
+            ScrollToBottomOfMessages();
         }
 
         private void btnUsePotion_Click(object sender, EventArgs e)
@@ -446,6 +458,14 @@ namespace SuperAdventure
             lblHitPoint.Text = _player.CurrentHitPoints.ToString();
             UpdateInventoryListInUI();
             UpdatePotionListInUI();
+
+            ScrollToBottomOfMessages();
+        }
+
+        private void ScrollToBottomOfMessages()
+        {
+            rtbMessages.SelectionStart = rtbMessages.Text.Length;
+            rtbMessages.ScrollToCaret();
         }
     }
 }
