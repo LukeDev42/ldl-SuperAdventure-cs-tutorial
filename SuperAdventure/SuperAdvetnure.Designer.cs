@@ -285,6 +285,7 @@
             this.Controls.Add(this.lblHitPoints);
             this.Name = "SuperAdvetnure";
             this.Text = "MyGame";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SuperAdvetnure_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
             this.ResumeLayout(false);
