@@ -19,8 +19,6 @@ namespace SuperAdventure
             _player.Inventory.Add(new InventoryItem(World.ItemByID
                 (World.ITEM_ID_RUSTY_SWORD), 1));
 
-            _player = new Player(10, 10, 20, 0, 1);
-
             lblHitPoint.Text = _player.CurrentHitPoints.ToString();
             lblGold.Text = _player.Gold.ToString();
             lblExperience.Text = _player.ExperiencePoints.ToString();
@@ -269,9 +267,12 @@ namespace SuperAdventure
 
             foreach (InventoryItem inventoryItem in _player.Inventory)
             {
-                if(inventoryItem.Quantity >0)
+                if (inventoryItem.Details is HealingPotion)
                 {
-                    healingPotions.Add((HealingPotion)inventoryItem.Details);
+                    if (inventoryItem.Quantity > 0)
+                    {
+                        healingPotions.Add((HealingPotion)inventoryItem.Details);
+                    }
                 }
             }
 
