@@ -24,13 +24,6 @@ namespace SuperAdventure
             lblLevel.Text = _player.Level.ToString();
         }
 
-
-
-
-
-
-
-
         private void btnNorth_Click(object sender, EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToNorth);
@@ -296,7 +289,92 @@ namespace SuperAdventure
 
         private void btnUseWeapon_Click(object sender, EventArgs e)
         {
+            //Get the seleced wepon from the cboWeapons
+            Weapon currentWeapon = (Weapon)cboWeapons.SelectedItem;
 
+            //Determine damage
+            int damageToMonster = RandomNumberGenerator.NumberBetween(
+                currentWeapon.MinimumDamage, currentWeapon.MaximumDamage);
+
+            //Apply the damage
+            _currentMonster.CurrentHitPoints -= damageToMonster;
+
+            //Display message
+            rtbMessages.Text += "You hit the " + _currentMonster.Name + " for " +
+                damageToMonster.ToString() + " points." + Environment.NewLine;
+
+            //Check for monster death
+            if (_currentMonster.CurrentHitPoints <= 0)
+            {
+                //monster is dead
+                rtbMessages.Text += Environment.NewLine;
+                rtbMessages.Text += "You defeated the " + _currentMonster.Name + Environment.NewLine;
+
+                //Give exp
+                _player.ExperiencePoints += _currentMonster.RewardExperiencePoints;
+                rtbMessages.Text += "You receive " + _currentMonster.RewardExperiencePoints.ToString() +
+                    " experience points" + Environment.NewLine;
+
+                //Give gold
+                _player.Gold += _currentMonster.RewardGold;
+                rtbMessages.Text += "You recieve " + _currentMonster.RewardGold.ToString() +
+                    " gold." + Environment.NewLine;
+
+                //Get random loot item
+                List<InventoryItem> lootedItems = new List<InventoryItem>();
+
+                //Add items to the lootedItems list, comparing a random number to the drop percentage
+                foreach (LootItem  lootItem in _currentMonster.LootTable)
+                {
+                    if(RandomNumberGenerator.NumberBetween(1,100) <= lootItem.DropPercentage)
+                    {
+                        lootedItems.Add(new InventoryItem(lootItem.Details, 1));
+                    }
+                }
+
+                //If no items were selected, add default items
+                if(lootedItems.Count == 0)
+                {
+                    foreach (LootItem lootItem in _currentMonster.LootTable)
+                    {
+                        if (lootItem.IsDefaultItem)
+                        {
+                            lootedItems.Add(new InventoryItem(lootItem.Details, 1));
+                        }
+                    }
+                }
+
+                //Add loot items to inventory
+                foreach (InventoryItem inventoryItem in lootedItems)
+                {
+                    _player.AddItemToInventory(inventoryItem.Details);
+
+                    if (inventoryItem.Quantity == 1)
+                    {
+                        rtbMessages.Text += "You loot " + inventoryItem.Quantity.ToString() + " "
+                            + inventoryItem.Details.Name + Environment.NewLine;
+                    }
+                    else
+                    {
+                        rtbMessages.Text += "You loot " + inventoryItem.Quantity.ToString() + " "
+                            + inventoryItem.Details.NamePlural + Environment.NewLine;
+                    }
+                }
+
+                //Refresh player info and inventory
+                lblHitPoint.Text = _player.CurrentHitPoints.ToString();
+                lblGold.Text = _player.Gold.ToString();
+                lblExperience.Text = _player.ExperiencePoints.ToString();
+                lblLevel.Text = _player.Level.ToString();
+
+                UpdateInventoryListInUI();
+                UpdateWeaponListInUI();
+                UpdatePotionListInUI();
+
+                rtbMessages.Text += Environment.NewLine;
+
+                MoveTo(_player.CurrentLocation);
+            }
         }
 
         private void btnUsePotion_Click(object sender, EventArgs e)
