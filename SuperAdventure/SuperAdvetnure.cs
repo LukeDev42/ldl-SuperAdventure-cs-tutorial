@@ -379,7 +379,53 @@ namespace SuperAdventure
 
         private void btnUsePotion_Click(object sender, EventArgs e)
         {
+            //get selected potion
+            HealingPotion potion = (HealingPotion)cboPotions.SelectedItem;
 
+            //Add healing amount to player
+            _player.CurrentHitPoints = (_player.CurrentHitPoints + potion.AmountToHeal);
+
+            //Dont go over the max hp
+            if (_player.CurrentHitPoints > _player.MaximumHitPoints)
+            {
+                _player.CurrentHitPoints = _player.MaximumHitPoints;
+            }
+
+            //Remove Potion
+            foreach (InventoryItem ii in _player.Inventory)
+            {
+                if(ii.Details.ID == potion.ID)
+                {
+                    ii.Quantity--;
+                    break;
+                }
+            }
+
+            //DisplayMessage
+            rtbMessages.Text = "You drink a " + potion.Name + Environment.NewLine;
+
+            //Monster Attacks
+
+            //Determine monsters damage
+            int damageToPlayer = RandomNumberGenerator.NumberBetween(0, _currentMonster.MaximumDamage);
+
+            rtbMessages.Text = "The " + _currentMonster.Name + " did " + damageToPlayer.ToString()
+                 + " points of damage." + Environment.NewLine;
+
+            //Subract damage from hp
+            _player.CurrentHitPoints -= damageToPlayer;
+
+            if (_player.CurrentHitPoints <= 0)
+            {
+                rtbMessages.Text += "The " + _currentMonster.Name + " killed you." + Environment.NewLine;
+
+                MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
+            }
+
+            //refresh UI
+            lblHitPoint.Text = _player.CurrentHitPoints.ToString();
+            UpdateInventoryListInUI();
+            UpdatePotionListInUI();
         }
     }
 }
