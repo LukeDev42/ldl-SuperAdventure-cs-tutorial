@@ -31,35 +31,15 @@ namespace Engine
         {
             if (location.ItemRequiredToEnter == null)
             {
-                //There is no required item for this location
                 return true;
             }
 
-            //look for required items
-            foreach (InventoryItem ii in Inventory)
-            {
-                if (ii.Details.ID == location.ItemRequiredToEnter.ID)
-                {
-                    //We found the item
-                    return true;
-                }
-            }
-
-            //Didn't find the item in their inventory
-            return false;
+            return Inventory.Exists(ii => ii.Details.ID == location.ItemRequiredToEnter.ID);
         }
 
         public bool HasThisQuest(Quest quest)
         {
-            foreach (PlayerQuest playerQuest in Quests)
-            {
-                if (playerQuest.Details.ID == quest.ID)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return Quests.Exists(pq => pq.Details.ID == quest.ID);
         }
 
         public bool ComletedThisQuest(Quest quest)
@@ -76,32 +56,15 @@ namespace Engine
 
         public bool HasAllQuestCompletionItem(Quest quest)
         {
-            //See if the layer has all required quest completion items
             foreach (QuestCompletionItem qci in quest.QuestCompletionItem)
             {
-                bool foundItemInPlayersInventory = false;
-
-                //Check each item in player's inventory to if they have enough of it
-                foreach (InventoryItem ii in Inventory)
-                {
-                    //The player has the item
-                    if (ii.Details.ID == qci.Details.ID)
-                    {
-                        foundItemInPlayersInventory = true;
-                        //Player doesn't have enough of the item
-                        if (ii.Quantity < qci.Quantity)
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                //The player does not have any of this quest copletion item in their inventory
-                if (!foundItemInPlayersInventory)
+                //Check if they have enough
+                if (!Inventory.Exists(ii => ii.Details.ID == qci.Details.ID && ii.Quantity >= qci.Quantity))
                 {
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -109,46 +72,36 @@ namespace Engine
         {
             foreach (QuestCompletionItem qci in quest.QuestCompletionItem)
             {
-                foreach (InventoryItem ii in Inventory)
+                InventoryItem item = Inventory.SingleOrDefault(ii => ii.Details.ID == qci.Details.ID);
+
+                if (item != null)
                 {
-                    if (ii.Details.ID == qci.Details.ID)
-                    {
-                        //Subtract the quantity from the player's inventory that was needed to complete the quest
-                        ii.Quantity -= qci.Quantity;
-                        break;
-                    }
+                    item.Quantity -= qci.Quantity;
                 }
             }
         }
 
         public void AddItemToInventory(Item itemToAdd)
         {
-            foreach (InventoryItem ii in Inventory)
+            InventoryItem item = Inventory.SingleOrDefault(ii => ii.Details.ID == itemToAdd.ID);
+
+            if (item == null)
             {
-                if (ii.Details.ID == itemToAdd.ID)
-                {
-                    //The have the item in their inventory, so increase the quantity by one
-                    ii.Quantity++;
-
-                    return;
-                }
+                Inventory.Add(new InventoryItem(itemToAdd, 1));
             }
-
-            //They didn't have the item , add it and increase the quantity
-            Inventory.Add(new InventoryItem(itemToAdd, 1));
+            else
+            {
+                item.Quantity++;
+            }
         }
 
         public void MarkQuestCompleted(Quest quest)
         {
-            //Find the quest in the quest list
-            foreach (PlayerQuest pq in Quests)
-            {
-                if (pq.Details.ID == quest.ID)
-                {
-                    pq.IsCompleted = true;
+            PlayerQuest playerQuest = Quests.SingleOrDefault(pq => pq.Details.ID == quest.ID);
 
-                    return;
-                }
+            if(playerQuest != null)
+            {
+                playerQuest.IsCompleted = true;
             }
         }
     }
