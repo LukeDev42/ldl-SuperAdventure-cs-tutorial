@@ -83,11 +83,11 @@ namespace Engine
                 foreach (InventoryItem ii in Inventory)
                 {
                     //The player has the item
-                    if(ii.Details.ID == qci.Details.ID)
+                    if (ii.Details.ID == qci.Details.ID)
                     {
                         foundItemInPlayersInventory = true;
                         //Player doesn't have enough of the item
-                        if(ii.Quantity < qci.Quantity)
+                        if (ii.Quantity < qci.Quantity)
                         {
                             return false;
                         }
@@ -95,7 +95,7 @@ namespace Engine
                 }
 
                 //The player does not have any of this quest copletion item in their inventory
-                if(!foundItemInPlayersInventory)
+                if (!foundItemInPlayersInventory)
                 {
                     return false;
                 }
@@ -109,7 +109,7 @@ namespace Engine
             {
                 foreach (InventoryItem ii in Inventory)
                 {
-                    if(ii.Details.ID == qci.Details.ID)
+                    if (ii.Details.ID == qci.Details.ID)
                     {
                         //Subtract the quantity from the player's inventory that was needed to complete the quest
                         ii.Quantity -= qci.Quantity;
@@ -132,7 +132,7 @@ namespace Engine
                 }
             }
 
-            //THey didn't have the item , add it and increase the quantity
+            //They didn't have the item , add it and increase the quantity
             Inventory.Add(new InventoryItem(itemToAdd, 1));
         }
 
@@ -141,7 +141,7 @@ namespace Engine
             //Find the quest in the quest list
             foreach (PlayerQuest pq in Quests)
             {
-                if(pq.Details.ID == quest.ID)
+                if (pq.Details.ID == quest.ID)
                 {
                     pq.IsCompleted = true;
 
@@ -150,6 +150,4 @@ namespace Engine
             }
         }
     }
-
-
 }
