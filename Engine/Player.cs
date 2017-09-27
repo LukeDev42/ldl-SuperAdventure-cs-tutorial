@@ -102,6 +102,53 @@ namespace Engine
             }
             return true;
         }
+
+        public void RemoveQuestCompletionItems(Quest quest)
+        {
+            foreach (QuestCompletionItem qci in quest.QuestCompletionItem)
+            {
+                foreach (InventoryItem ii in Inventory)
+                {
+                    if(ii.Details.ID == qci.Details.ID)
+                    {
+                        //Subtract the quantity from the player's inventory that was needed to complete the quest
+                        ii.Quantity -= qci.Quantity;
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void AddItemToInventory(Item itemToAdd)
+        {
+            foreach (InventoryItem ii in Inventory)
+            {
+                if (ii.Details.ID == itemToAdd.ID)
+                {
+                    //The have the item in their inventory, so increase the quantity by one
+                    ii.Quantity++;
+
+                    return;
+                }
+            }
+
+            //THey didn't have the item , add it and increase the quantity
+            Inventory.Add(new InventoryItem(itemToAdd, 1));
+        }
+
+        public void MarkQuestCompleted(Quest quest)
+        {
+            //Find the quest in the quest list
+            foreach (PlayerQuest pq in Quests)
+            {
+                if(pq.Details.ID == quest.ID)
+                {
+                    pq.IsCompleted = true;
+
+                    return;
+                }
+            }
+        }
     }
 
 
