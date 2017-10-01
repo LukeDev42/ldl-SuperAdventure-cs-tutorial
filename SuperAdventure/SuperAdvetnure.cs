@@ -20,10 +20,13 @@ namespace SuperAdventure
                 _player = Player.CreatePlayerFromXmlString(File.ReadAllText(PLAYER_DATA_FILE_NAME));
             else
                 _player = Player.CreateDefaultPlayer();
-            
+
+            lblHitPoint.DataBindings.Add("Text", _player, "CurrentHitPoints");
+            lblGold.DataBindings.Add("Text", _player, "Gold");
+            lblExperience.DataBindings.Add("Text", _player, "ExperiencePoints");
+            lblLevel.DataBindings.Add("Text", _player, "Level");
 
             MoveTo(_player.CurrentLocation);
-            UpdatePlayerStats();
         }
 
         private void btnNorth_Click(object sender, EventArgs e)
@@ -72,9 +75,6 @@ namespace SuperAdventure
 
             //Completely heal the player
             _player.CurrentHitPoints = _player.MaximumHitPoints;
-
-            //Update hit point in UI
-            lblHitPoint.Text = _player.CurrentHitPoints.ToString();
 
             //Does the location have a quest?
             if (newLocation.QuestAvailableHere != null)
@@ -384,7 +384,7 @@ namespace SuperAdventure
                     }
             }
                 //Refresh player info and inventory
-                UpdatePlayerStats();
+                
 
                 UpdateInventoryListInUI();
                 UpdateWeaponListInUI();
@@ -402,8 +402,6 @@ namespace SuperAdventure
                     damageToPlayer + " points of damage." + Environment.NewLine;
 
                 _player.CurrentHitPoints -= damageToPlayer;
-
-                lblHitPoint.Text = _player.CurrentHitPoints.ToString();
 
                 if(_player.CurrentHitPoints <= 0)
                 {
@@ -462,7 +460,7 @@ namespace SuperAdventure
             }
 
             //refresh UI
-            UpdatePlayerStats();
+            
             UpdateInventoryListInUI();
             UpdatePotionListInUI();
 
