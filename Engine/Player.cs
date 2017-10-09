@@ -42,6 +42,14 @@ namespace Engine
         public Weapon CurrentWeapon { get; set; }
         public BindingList<InventoryItem> Inventory { get; set; }
         public BindingList<PlayerQuest> Quests { get; set; }
+        public List<Weapon> Weapons
+        {
+            get { return Inventory.Where(x => x.Details is Weapon).Select(x => x.Details as Weapon).ToList(); }
+        }
+        public List<HealingPotion> Potions
+        {
+            get { return Inventory.Where(x => x.Details is HealingPotion).Select(x => x.Details as HealingPotion).ToList()}
+        }
 
         private Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints) :
             base(currentHitPoints, maximumHitPoints)
@@ -66,6 +74,43 @@ namespace Engine
         {
             ExperiencePoints += experiencePointsToAdd;
             MaximumHitPoints = (Level * 10);
+        }
+
+        private void RaiseInventoryChangedEvent(Item item)
+        {
+            if (item is Weapon)
+            {
+                OnPropertyChanged("Weapons");
+            }
+            if(item is HealingPotion)
+            {
+                OnPropertyChanged("Potions");
+            }
+        }
+
+        public void RemoveItemFromInventory(Item itemToRemove, int quantity = 1)
+        {
+            InventoryItem item = Inventory.SingleOrDefault(ii => ii.Details.ID == itemToRemove.ID);
+
+            if (item == null)
+            {
+            }
+            else
+            {
+                item.Quantity -= quantity;
+
+                if (item.Quantity < 0)
+                {
+                    item.Quantity = 0;
+                }
+
+                if(item.Quantity == 0)
+                {
+                    Inventory.Remove(item)
+                }
+
+                RaiseInventoryChangedEvent(itemToRemove);
+            }
         }
 
         public static Player CreatePlayerFromXmlString(string xmlPlayerData)
@@ -170,26 +215,29 @@ namespace Engine
             {
                 InventoryItem item = Inventory.SingleOrDefault(ii => ii.Details.ID == qci.Details.ID);
 
-                if (item != null)
+                if(item != null)
                 {
-                    item.Quantity -= qci.Quantity;
+                    RemoveItemFromInventory(item.Details, qci.Quantity);
                 }
             }
         }
 
-        public void AddItemToInventory(Item itemToAdd)
+        public void AddItemToInventory(Item itemToAdd, int quantity = 1)
         {
             InventoryItem item = Inventory.SingleOrDefault(ii => ii.Details.ID == itemToAdd.ID);
 
             if (item == null)
             {
-                Inventory.Add(new InventoryItem(itemToAdd, 1));
+                Inventory.Add(new InventoryItem(itemToAdd, quantity));
             }
             else
             {
-                item.Quantity++;
+                item.Quantity += quantity;
             }
+
+            RaiseInventoryChangedEvent(itemToAdd);
         }
+
 
         public void MarkQuestCompleted(Quest quest)
         {
