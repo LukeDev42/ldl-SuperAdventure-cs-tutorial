@@ -1,6 +1,6 @@
 ﻿namespace SuperAdventure
 {
-    partial class SuperAdvetnure
+    partial class SuperAdventure
     {
         /// <summary>
         /// Required designer variable.
@@ -283,9 +283,9 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblHitPoints);
-            this.Name = "SuperAdvetnure";
+            this.Name = "SuperAdventure";
             this.Text = "MyGame";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SuperAdvetnure_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SuperAdventure_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
             this.ResumeLayout(false);
