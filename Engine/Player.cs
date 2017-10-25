@@ -181,7 +181,7 @@ namespace Engine
         public bool HasAllQuestCompletionItems(Quest quest)
         {
             // See if the player has all the items needed to complete the quest here
-            foreach(QuestCompletionItem qci in quest.QuestCompletionItems)
+            foreach(QuestCompletionItems qci in quest.QuestCompletionItem)
             {
                 // Check each item in the player's inventory, to see if they have it, and enough of it
                 if(!Inventory.Any(ii => ii.Details.ID == qci.Details.ID && ii.Quantity >= qci.Quantity))
@@ -196,7 +196,7 @@ namespace Engine
 
         public void RemoveQuestCompletionItems(Quest quest)
         {
-            foreach(QuestCompletionItem qci in quest.QuestCompletionItems)
+            foreach(QuestCompletionItems qci in quest.QuestCompletionItem)
             {
                 // Subtract the quantity from the player's inventory that was needed to complete the quest
                 InventoryItem item = Inventory.SingleOrDefault(ii => ii.Details.ID == qci.Details.ID);
@@ -356,7 +356,7 @@ namespace Engine
                     RaiseMessage("You receive the " + newLocation.QuestAvailableHere.Name + " quest.");
                     RaiseMessage(newLocation.QuestAvailableHere.Description);
                     RaiseMessage("To complete it, return with:");
-                    foreach(QuestCompletionItem qci in newLocation.QuestAvailableHere.QuestCompletionItems)
+                    foreach(QuestCompletionItems qci in newLocation.QuestAvailableHere.QuestCompletionItem)
                     {
                         if(qci.Quantity == 1)
                         {

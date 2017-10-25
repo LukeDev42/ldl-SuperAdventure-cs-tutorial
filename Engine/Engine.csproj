@@ -54,7 +54,7 @@
     <Compile Include="PlayerQuest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quest.cs" />
-    <Compile Include="QuestCompletionItem.cs" />
+    <Compile Include="QuestCompletionItems.cs" />
     <Compile Include="Weapon.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
