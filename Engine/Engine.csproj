@@ -49,6 +49,7 @@
     <Compile Include="MessageEventArgs.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="RandomNumberGenerator.cs" />
+    <Compile Include="Vendor.cs" />
     <Compile Include="World.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerQuest.cs" />

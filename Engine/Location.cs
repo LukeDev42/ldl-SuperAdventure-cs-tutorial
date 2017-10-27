@@ -23,6 +23,7 @@ namespace Engine
             MonsterLivingHere = monsterLivingHere;
         }
 
+        public Vendor VendorWorkingHere { get; set; }
         public Item ItemRequiredToEnter { get; set; }
         public Quest QuestAvailableHere { get; set; }
         public Monster MonsterLivingHere { get; set; }
