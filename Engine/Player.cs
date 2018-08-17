@@ -13,6 +13,10 @@ namespace Engine
 
         private int _gold;
         private int _experiencePoints;
+        private Location _currentLocation;
+        private Monster _currentMonster;
+
+        public event EventHandler<MessageEventArgs>OnMessage;
 
         public int Gold
         {
@@ -34,27 +38,42 @@ namespace Engine
                 OnPropertyChanged("Level");
             }
         }
+
         public int Level
         {
             get { return ((ExperiencePoints / 100) + 1); }
         }
-        public Location CurrentLocation { get; set; }
+
+        public Location CurrentLocation
+        {
+            get{return _currentLocation; }
+            set
+            {
+                _currentLocation = value;
+                OnPropertyChanged("CurrentLocation");
+            }
+        }           
+
         public Weapon CurrentWeapon { get; set; }
-        public BindingList<InventoryItem> Inventory { get; set; }
-        public BindingList<PlayerQuest> Quests { get; set; }
+
+        public BindingList<InventoryItem> Inventory { get; set; }\
+
         public List<Weapon> Weapons
         {
-            get { return Inventory.Where(x => x.Details is Weapon).Select(x => x.Details as Weapon).ToList(); }
+            get{return Inventory.Where(x => x.Details is Weapon).Select(x => x.Details as Weapon).ToList(); }        
         }
+
         public List<HealingPotion> Potions
         {
-            get { return Inventory.Where(x => x.Details is HealingPotion).Select(x => x.Details as HealingPotion).ToList()}
+            get{return Inventory.Where(x => x.Details is HealingPotion).Select(x => x.Details as HealingPotion).ToList(); }
         }
+
+        public BindingList<PlayerQuest> Quests { get; set; }
 
         private Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints) :
             base(currentHitPoints, maximumHitPoints)
         {
-            Gold = Gold;
+            Gold = gold;
             ExperiencePoints = experiencePoints;
 
             Inventory = new BindingList<InventoryItem>();
@@ -74,43 +93,6 @@ namespace Engine
         {
             ExperiencePoints += experiencePointsToAdd;
             MaximumHitPoints = (Level * 10);
-        }
-
-        private void RaiseInventoryChangedEvent(Item item)
-        {
-            if (item is Weapon)
-            {
-                OnPropertyChanged("Weapons");
-            }
-            if(item is HealingPotion)
-            {
-                OnPropertyChanged("Potions");
-            }
-        }
-
-        public void RemoveItemFromInventory(Item itemToRemove, int quantity = 1)
-        {
-            InventoryItem item = Inventory.SingleOrDefault(ii => ii.Details.ID == itemToRemove.ID);
-
-            if (item == null)
-            {
-            }
-            else
-            {
-                item.Quantity -= quantity;
-
-                if (item.Quantity < 0)
-                {
-                    item.Quantity = 0;
-                }
-
-                if(item.Quantity == 0)
-                {
-                    Inventory.Remove(item)
-                }
-
-                RaiseInventoryChangedEvent(itemToRemove);
-            }
         }
 
         public static Player CreatePlayerFromXmlString(string xmlPlayerData)
@@ -238,6 +220,51 @@ namespace Engine
             RaiseInventoryChangedEvent(itemToAdd);
         }
 
+        public void RemoveItemFromInventory(Item itemToRemoce, int quantity = 1)
+        {
+            InventoryItem item = Inventory.SingleOrDefault(ii => ii.Details.ID == itemToRemove.ID);
+
+            if(item == null)
+            {
+                //The item is not in the player's inventroy, so ignore it.
+                //We might want to raise an error for this situation
+            }
+            else
+            {
+                //They have the item in their inventory, so decrease the quantity
+                item.Quantity -= quantity;
+
+                //Don't allow negative quantities.
+                //We might want to raise an error for this situation
+                if(item.Quantity > 0)
+                {
+                    item.Quantity = 0;
+                }
+
+                //If the quantity is zero, remove the item form the lsit
+                if(item.Quantity == 0)
+                {
+                    Inventory.Remove(item);
+                }
+               
+                //Notify the UI that the inventroy has changed
+                RaiseInventoryChangedEvent(itemToRemove);
+            }
+
+        }
+
+        private void RaiseInventoryChangedEvent(Item item)
+        {
+            if(item is Weapon)
+            {
+                OnPropertyChanged("Weapons");    
+            }
+
+            if(item is HealingPotion)
+            {
+                OnPropertyChanged("Potions");
+            }
+        }
 
         public void MarkQuestCompleted(Quest quest)
         {
@@ -248,6 +275,15 @@ namespace Engine
                 playerQuest.IsCompleted = true;
             }
         }
+
+        private void RaiseMessage(string message, bool addExtraNewLine = false)
+        {
+            if(OnMessage != null)
+            {
+                OnMessage(this,new MessageEventArgs(message, addExtraNewLine));
+            }
+        }
+        
 
         public string ToXMLString()
         {
