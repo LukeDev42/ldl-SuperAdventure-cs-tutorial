@@ -14,11 +14,6 @@ namespace Engine
         private int _experiencePoints;
         private Location _currentLocation;
         private Monster _currentMonster;
-<<<<<<< HEAD
-
-        public event EventHandler<MessageEventArgs>OnMessage;
-=======
->>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
 
         public event EventHandler<MessageEventArgs> OnMessage;
          
@@ -43,63 +38,38 @@ namespace Engine
             }
         }
 
-<<<<<<< HEAD
-        public int Level
-=======
         public int Level 
->>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
         {
             get { return ((ExperiencePoints / 100) + 1); }
         }
 
         public Location CurrentLocation
         {
-<<<<<<< HEAD
-            get{return _currentLocation; }
-=======
             get { return _currentLocation; }
->>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
             set
             {
                 _currentLocation = value;
                 OnPropertyChanged("CurrentLocation");
             }
-<<<<<<< HEAD
-        }           
-
-        public Weapon CurrentWeapon { get; set; }
-
-        public BindingList<InventoryItem> Inventory { get; set; }\
-=======
         }
 
         public Weapon CurrentWeapon { get; set; }
 
         public BindingList<InventoryItem> Inventory { get; set; }
->>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
 
         public List<Weapon> Weapons
         {
-            get{return Inventory.Where(x => x.Details is Weapon).Select(x => x.Details as Weapon).ToList(); }        
+            get { return Inventory.Where(x => x.Details is Weapon).Select(x => x.Details as Weapon).ToList(); }
         }
 
         public List<HealingPotion> Potions
         {
-<<<<<<< HEAD
-            get{return Inventory.Where(x => x.Details is HealingPotion).Select(x => x.Details as HealingPotion).ToList(); }
-=======
             get { return Inventory.Where(x => x.Details is HealingPotion).Select(x => x.Details as HealingPotion).ToList(); }
->>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
         }
 
         public BindingList<PlayerQuest> Quests { get; set; }
 
-<<<<<<< HEAD
-        private Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints) :
-            base(currentHitPoints, maximumHitPoints)
-=======
         private Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints) : base(currentHitPoints, maximumHitPoints)
->>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
         {
             Gold = gold;
             ExperiencePoints = experiencePoints;
@@ -256,29 +226,12 @@ namespace Engine
             RaiseInventoryChangedEvent(itemToAdd);
         }
 
-<<<<<<< HEAD
-        public void RemoveItemFromInventory(Item itemToRemoce, int quantity = 1)
-=======
         public void RemoveItemFromInventory(Item itemToRemove, int quantity = 1)
->>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
         {
             InventoryItem item = Inventory.SingleOrDefault(ii => ii.Details.ID == itemToRemove.ID);
 
             if(item == null)
             {
-<<<<<<< HEAD
-                //The item is not in the player's inventroy, so ignore it.
-                //We might want to raise an error for this situation
-            }
-            else
-            {
-                //They have the item in their inventory, so decrease the quantity
-                item.Quantity -= quantity;
-
-                //Don't allow negative quantities.
-                //We might want to raise an error for this situation
-                if(item.Quantity > 0)
-=======
                 // The item is not in the player's inventory, so ignore it.
                 // We might want to raise an error for this situation
             }
@@ -290,43 +243,26 @@ namespace Engine
                 // Don't allow negative quantities.
                 // We might want to raise an error for this situation
                 if(item.Quantity < 0)
->>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
                 {
                     item.Quantity = 0;
                 }
 
-<<<<<<< HEAD
-                //If the quantity is zero, remove the item form the lsit
-=======
                 // If the quantity is zero, remove the item from the list
->>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
                 if(item.Quantity == 0)
                 {
                     Inventory.Remove(item);
                 }
-<<<<<<< HEAD
-               
-                //Notify the UI that the inventroy has changed
-                RaiseInventoryChangedEvent(itemToRemove);
-            }
-
-=======
 
                 // Notify the UI that the inventory has changed
                 RaiseInventoryChangedEvent(itemToRemove);
             }
->>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
         }
 
         private void RaiseInventoryChangedEvent(Item item)
         {
             if(item is Weapon)
             {
-<<<<<<< HEAD
-                OnPropertyChanged("Weapons");    
-=======
                 OnPropertyChanged("Weapons");
->>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
             }
 
             if(item is HealingPotion)
@@ -350,14 +286,6 @@ namespace Engine
         {
             if(OnMessage != null)
             {
-<<<<<<< HEAD
-                OnMessage(this,new MessageEventArgs(message, addExtraNewLine));
-            }
-        }
-        
-
-        public string ToXMLString()
-=======
                 OnMessage(this, new MessageEventArgs(message, addExtraNewLine));
             }
         }
@@ -639,7 +567,6 @@ namespace Engine
         }
 
         public string ToXmlString()
->>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
         {
             XmlDocument playerData = new XmlDocument();
 
