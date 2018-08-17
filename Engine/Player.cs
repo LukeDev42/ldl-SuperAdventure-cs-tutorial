@@ -12,6 +12,7 @@ namespace Engine
     {
         private int _gold;
         private int _experiencePoints;
+<<<<<<< HEAD
         private Location _currentLocation;
         private Monster _currentMonster;
 <<<<<<< HEAD
@@ -19,6 +20,8 @@ namespace Engine
         public event EventHandler<MessageEventArgs>OnMessage;
 =======
 >>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
+=======
+>>>>>>> parent of 018e41a... Lesson 20.3b
 
         public event EventHandler<MessageEventArgs> OnMessage;
          
@@ -42,8 +45,11 @@ namespace Engine
                 OnPropertyChanged("Level");
             }
         }
+<<<<<<< HEAD
 
 <<<<<<< HEAD
+=======
+>>>>>>> parent of 018e41a... Lesson 20.3b
         public int Level
 =======
         public int Level 
@@ -51,6 +57,7 @@ namespace Engine
         {
             get { return ((ExperiencePoints / 100) + 1); }
         }
+<<<<<<< HEAD
 
         public Location CurrentLocation
         {
@@ -78,13 +85,19 @@ namespace Engine
         public BindingList<InventoryItem> Inventory { get; set; }
 >>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
 
+=======
+        public Location CurrentLocation { get; set; }
+        public Weapon CurrentWeapon { get; set; }
+        public BindingList<InventoryItem> Inventory { get; set; }
+        public BindingList<PlayerQuest> Quests { get; set; }
+>>>>>>> parent of 018e41a... Lesson 20.3b
         public List<Weapon> Weapons
         {
-            get{return Inventory.Where(x => x.Details is Weapon).Select(x => x.Details as Weapon).ToList(); }        
+            get { return Inventory.Where(x => x.Details is Weapon).Select(x => x.Details as Weapon).ToList(); }
         }
-
         public List<HealingPotion> Potions
         {
+<<<<<<< HEAD
 <<<<<<< HEAD
             get{return Inventory.Where(x => x.Details is HealingPotion).Select(x => x.Details as HealingPotion).ToList(); }
 =======
@@ -95,13 +108,18 @@ namespace Engine
         public BindingList<PlayerQuest> Quests { get; set; }
 
 <<<<<<< HEAD
+=======
+            get { return Inventory.Where(x => x.Details is HealingPotion).Select(x => x.Details as HealingPotion).ToList()}
+        }
+
+>>>>>>> parent of 018e41a... Lesson 20.3b
         private Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints) :
             base(currentHitPoints, maximumHitPoints)
 =======
         private Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints) : base(currentHitPoints, maximumHitPoints)
 >>>>>>> 91e343661b0dcf517da3651ccafc2bb8646a0565
         {
-            Gold = gold;
+            Gold = Gold;
             ExperiencePoints = experiencePoints;
 
             Inventory = new BindingList<InventoryItem>();
@@ -121,6 +139,43 @@ namespace Engine
         {
             ExperiencePoints += experiencePointsToAdd;
             MaximumHitPoints = (Level * 10);
+        }
+
+        private void RaiseInventoryChangedEvent(Item item)
+        {
+            if (item is Weapon)
+            {
+                OnPropertyChanged("Weapons");
+            }
+            if(item is HealingPotion)
+            {
+                OnPropertyChanged("Potions");
+            }
+        }
+
+        public void RemoveItemFromInventory(Item itemToRemove, int quantity = 1)
+        {
+            InventoryItem item = Inventory.SingleOrDefault(ii => ii.Details.ID == itemToRemove.ID);
+
+            if (item == null)
+            {
+            }
+            else
+            {
+                item.Quantity -= quantity;
+
+                if (item.Quantity < 0)
+                {
+                    item.Quantity = 0;
+                }
+
+                if(item.Quantity == 0)
+                {
+                    Inventory.Remove(item)
+                }
+
+                RaiseInventoryChangedEvent(itemToRemove);
+            }
         }
 
         public static Player CreatePlayerFromXmlString(string xmlPlayerData)
@@ -257,6 +312,7 @@ namespace Engine
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         public void RemoveItemFromInventory(Item itemToRemoce, int quantity = 1)
 =======
         public void RemoveItemFromInventory(Item itemToRemove, int quantity = 1)
@@ -334,6 +390,8 @@ namespace Engine
                 OnPropertyChanged("Potions");
             }
         }
+=======
+>>>>>>> parent of 018e41a... Lesson 20.3b
 
         public void MarkQuestCompleted(Quest quest)
         {
@@ -346,6 +404,7 @@ namespace Engine
             }
         }
 
+<<<<<<< HEAD
         private void RaiseMessage(string message, bool addExtraNewLine = false)
         {
             if(OnMessage != null)
@@ -356,6 +415,8 @@ namespace Engine
         }
         
 
+=======
+>>>>>>> parent of 018e41a... Lesson 20.3b
         public string ToXMLString()
 =======
                 OnMessage(this, new MessageEventArgs(message, addExtraNewLine));

@@ -17,7 +17,11 @@ namespace SuperAdventure
     {
         private const string PLAYER_DATA_FILE_NAME = "PlayerData.xml";
 <<<<<<< HEAD
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> parent of 018e41a... Lesson 20.3b
         public SuperAdvetnure()
 =======
 
@@ -136,10 +140,10 @@ namespace SuperAdventure
                 }
 <<<<<<< HEAD
 
-                cboWeapons.Visible = _player.Weapons.Any();
-                cboPotions.Visible = _player.Potions.Any();
-                btnUseWeapon.Visible = _player.Weapons.Any();
-                btnUsePotion.Visible = _player.Weapons.Any();
+                cboWeapons.Visible = true;
+                cboPotions.Visible = true;
+                btnUseWeapon.Visible = true;
+                btnUsePotion.Visible = true;
             }
             else
             {
