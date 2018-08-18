@@ -81,5 +81,7 @@
         private System.Windows.Forms.Label lblMyInventory;
         private System.Windows.Forms.Label lblVendorInventory;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.DataGridView dgvMyItems;
+        private System.Windows.Forms.DataGridView dgvVendorItems;
     }
 }
