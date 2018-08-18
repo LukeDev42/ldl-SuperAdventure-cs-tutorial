@@ -141,7 +141,9 @@ namespace SuperAdventure
 
         private void btnTrade_Click(object sender, EventArgs e)
         {
-
+            TradingScreen tradingScreen = new TradingScreen(_player);
+            tradingScreen.StartPosition = FormStartPosition.CenterParent;
+            tradingScreen.ShowDialog(this);
         }
 
         private void MoveTo(Location newLocation)
