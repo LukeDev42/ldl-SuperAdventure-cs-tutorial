@@ -139,6 +139,11 @@ namespace SuperAdventure
             MoveTo(_player.CurrentLocation.LocationToWest);
         }
 
+        private void btnTrade_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void MoveTo(Location newLocation)
         {
             //Does the location have any required items
