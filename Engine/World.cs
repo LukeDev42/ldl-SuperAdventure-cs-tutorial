@@ -13,6 +13,8 @@ namespace Engine
         public static readonly List<Quest> Quests = new List<Quest>();
         public static readonly List<Location> Locations = new List<Location>();
 
+        public const int UNSELLABLE_ITEM_PRICE = -1;
+
         public const int ITEM_ID_RUSTY_SWORD = 1;
         public const int ITEM_ID_RAT_TAIL = 2;
         public const int ITEM_ID_PIECE_OF_FUR = 3;
@@ -51,18 +53,18 @@ namespace Engine
 
         private static void PopulateItems()
         {
-            Items.Add(new Weapon(ITEM_ID_RUSTY_SWORD, "Rusty sword", "Rusty swords", 0, 5));
-            Items.Add(new Item(ITEM_ID_RAT_TAIL, "Rat tail", "Rat Tails,"));
-            Items.Add(new Item(ITEM_ID_PIECE_OF_FUR, "Piece of fur", "Pieces of fur"));
-            Items.Add(new Item(ITEM_ID_SNAKE_FANG, "Snake fang", "Snake fangs"));
-            Items.Add(new Item(ITEM_ID_SNAKESKIN, "Snake skin", "Snake skins"));
-            Items.Add(new Weapon(ITEM_ID_CLUB, "Club", "Clubs", 3, 10));
+            Items.Add(new Weapon(ITEM_ID_RUSTY_SWORD, "Rusty sword", "Rusty swords", 0, 5,5));
+            Items.Add(new Item(ITEM_ID_RAT_TAIL, "Rat tail", "Rat Tails,",1));
+            Items.Add(new Item(ITEM_ID_PIECE_OF_FUR, "Piece of fur", "Pieces of fur",1));
+            Items.Add(new Item(ITEM_ID_SNAKE_FANG, "Snake fang", "Snake fangs",1));
+            Items.Add(new Item(ITEM_ID_SNAKESKIN, "Snake skin", "Snake skins",2));
+            Items.Add(new Weapon(ITEM_ID_CLUB, "Club", "Clubs", 3, 10,8));
             Items.Add(new HealingPotion(ITEM_ID_HEALING_POTION,
-                "Healing potion", "Healing potions", 5));
-            Items.Add(new Item(ITEM_ID_SPIDER_FANG, "Spider fang", "Spider Fangs"));
-            Items.Add(new Item(ITEM_ID_SPIDER_SLIK, "Spider silk", "Spider silks"));
+                "Healing potion", "Healing potions", 5,3));
+            Items.Add(new Item(ITEM_ID_SPIDER_FANG, "Spider fang", "Spider Fangs",1));
+            Items.Add(new Item(ITEM_ID_SPIDER_SLIK, "Spider silk", "Spider silks",1));
             Items.Add(new Item(ITEM_ID_ADVENTURER_PASS,
-                "Adventurer pass", "Adventurer passes"));
+                "Adventurer pass", "Adventurer passes", UNSELLABLE_ITEM_PRICE));
         }
 
         private static void PopulateMonsters()
