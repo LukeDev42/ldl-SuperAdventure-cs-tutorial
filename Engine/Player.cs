@@ -293,7 +293,7 @@ namespace Engine
         public void MoveTo(Location newLocation)
         {
             //Does the location have any required items
-            if (HasRequiredItemToEnterThisLocation(newLocation))
+            if (!HasRequiredItemToEnterThisLocation(newLocation))
             {
                 RaiseMessage("You must have a " + newLocation.ItemRequiredToEnter.Name + " to enter this location.");
                 return;

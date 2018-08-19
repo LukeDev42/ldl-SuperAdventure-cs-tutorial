@@ -31,6 +31,10 @@
             this.lblMyInventory = new System.Windows.Forms.Label();
             this.lblVendorInventory = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
+            this.dgvMyItems = new System.Windows.Forms.DataGridView();
+            this.dgvVendorItems = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMyItems)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVendorItems)).BeginInit();
             this.SuspendLayout();
             // 
             // lblMyInventory
@@ -61,16 +65,38 @@
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // dgvMyItems
+            // 
+            this.dgvMyItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMyItems.Location = new System.Drawing.Point(28, 47);
+            this.dgvMyItems.Name = "dgvMyItems";
+            this.dgvMyItems.RowTemplate.Height = 28;
+            this.dgvMyItems.Size = new System.Drawing.Size(240, 150);
+            this.dgvMyItems.TabIndex = 3;
+            // 
+            // dgvVendorItems
+            // 
+            this.dgvVendorItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvVendorItems.Location = new System.Drawing.Point(276, 47);
+            this.dgvVendorItems.Name = "dgvVendorItems";
+            this.dgvVendorItems.RowTemplate.Height = 28;
+            this.dgvVendorItems.Size = new System.Drawing.Size(240, 150);
+            this.dgvVendorItems.TabIndex = 4;
+            // 
             // TradingScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(522, 293);
+            this.Controls.Add(this.dgvVendorItems);
+            this.Controls.Add(this.dgvMyItems);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.lblVendorInventory);
             this.Controls.Add(this.lblMyInventory);
             this.Name = "TradingScreen";
             this.Text = "Trade";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMyItems)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVendorItems)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

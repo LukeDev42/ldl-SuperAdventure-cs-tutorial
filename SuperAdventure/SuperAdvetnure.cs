@@ -91,6 +91,8 @@ namespace SuperAdventure
             _player.PropertyChanged += PlayerOnPropertyChanged;
 
             _player.MoveTo(_player.CurrentLocation);
+
+            _player.OnMessage += DisplayMessage;
         }
 
         private void DisplayMessage(object sender, MessageEventArgs messageEventArgs)
@@ -101,7 +103,7 @@ namespace SuperAdventure
             {
                 rtbMessages.Text += Environment.NewLine;
             }
-            _player.OnMessage += DisplayMessage;
+            
             rtbMessages.SelectionStart = rtbMessages.Text.Length;
             rtbMessages.ScrollToCaret();
         }
