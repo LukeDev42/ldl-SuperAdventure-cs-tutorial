@@ -374,6 +374,25 @@ namespace Engine
                     Quests.Add(new PlayerQuest(newLocation.QuestAvailableHere));
                 }
             }
+
+            if (newLocation.MonsterLivingHere != null)
+            {
+                RaiseMessage("You see a " + newLocation.MonsterLivingHere.Name);
+
+                Monster standardMonster = World.MonsterByID(newLocation.MonsterLivingHere.ID);
+
+                _currentMonster = new Monster(standardMonster.ID, standardMonster.Name, standardMonster.MaximumDamage,
+                    standardMonster.RewardExperiencePoints, standardMonster.RewardGold, standardMonster.CurrentHitPoints, standardMonster.MaximumHitPoints);
+
+                foreach (LootItem lootItem in standardMonster.LootTable)
+                {
+                    _currentMonster.LootTable.Add(lootItem);
+                }
+            }
+            else
+            {
+                _currentMonster = null;
+            }
         }
 
         public void MoveNorth()
@@ -495,6 +514,7 @@ namespace Engine
                     MoveHome();
                 }
             }
+
         }
 
         public void UsePotion(HealingPotion potion)

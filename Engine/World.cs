@@ -133,7 +133,7 @@ namespace Engine
             alchemistHut.QuestAvailableHere = QuestByID(QUEST_ID_CLEAR_ALCHEMIST_GARDEN);
 
             Location alchemistsGarden = new Location(LOCATION_ID_ALCHEMIST_GARDEN, "Alchemist's garden",
-                "Many palnts are growing here.");
+                "Many plants are growing here.");
             alchemistsGarden.MonsterLivingHere = MonsterByID(MONSTER_ID_RAT);
 
             Location farmhouse = new Location(LOCATION_ID_FARMHOUSE,
